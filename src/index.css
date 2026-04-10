@@ -12,6 +12,11 @@ body {
   font-family: 'Cairo', sans-serif;
   direction: rtl;
   background-color: #fafafa;
+  overflow-x: hidden;
+}
+
+html {
+  overflow-x: hidden;
 }
 
 @layer components {
