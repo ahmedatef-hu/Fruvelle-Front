@@ -9,8 +9,10 @@ const HomePage = () => {
 
   useEffect(() => {
     fetchFeaturedProducts();
-    
-    // Scroll Animation Observer
+  }, []);
+
+  useEffect(() => {
+    // Scroll Animation Observer - runs after products are loaded
     const observerOptions = {
       threshold: 0.1,
       rootMargin: '0px 0px -50px 0px'
@@ -25,11 +27,13 @@ const HomePage = () => {
     }, observerOptions);
 
     // Observe all elements with scroll-animate class
-    const animateElements = document.querySelectorAll('.scroll-animate');
-    animateElements.forEach((el) => observer.observe(el));
+    setTimeout(() => {
+      const animateElements = document.querySelectorAll('.scroll-animate');
+      animateElements.forEach((el) => observer.observe(el));
+    }, 100);
 
     return () => observer.disconnect();
-  }, []);
+  }, [featuredProducts, loading]); // Re-run when products change
 
   const fetchFeaturedProducts = async () => {
     try {
