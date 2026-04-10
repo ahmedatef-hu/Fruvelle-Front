@@ -44,11 +44,11 @@ const ProductCard = ({ product }) => {
           
           {/* Image */}
           <img
-            src={product.images?.[0] || 'https://via.placeholder.com/400x400/f97316/ffffff?text=Fruvelle'}
+            src={product.images?.[0] || 'https://placehold.co/400x400/f97316/white?text=Fruvelle'}
             alt={product.name_ar}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
             onError={(e) => {
-              e.target.src = 'https://via.placeholder.com/400x400/f97316/ffffff?text=Fruvelle';
+              e.target.src = 'https://placehold.co/400x400/f97316/white?text=Fruvelle';
             }}
           />
           

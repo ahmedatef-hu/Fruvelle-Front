@@ -96,11 +96,11 @@ const ProductDetailPage = () => {
                 </div>
                 
                 <img
-                  src={product.images?.[selectedImage] || 'https://via.placeholder.com/600x400/f97316/ffffff?text=Fruvelle'}
+                  src={product.images?.[selectedImage] || 'https://placehold.co/600x400/f97316/white?text=Fruvelle'}
                   alt={product.name_ar}
                   className="w-full h-[500px] object-cover group-hover:scale-105 transition-transform duration-700"
                   onError={(e) => {
-                    e.target.src = 'https://via.placeholder.com/600x400/f97316/ffffff?text=Fruvelle';
+                    e.target.src = 'https://placehold.co/600x400/f97316/white?text=Fruvelle';
                   }}
                 />
                 
@@ -131,7 +131,7 @@ const ProductDetailPage = () => {
                       alt="" 
                       className="relative w-full h-full object-cover"
                       onError={(e) => {
-                        e.target.src = 'https://via.placeholder.com/100x100/f97316/ffffff?text=Fruvelle';
+                        e.target.src = 'https://placehold.co/100x100/f97316/white?text=Fruvelle';
                       }}
                     />
                   </button>
