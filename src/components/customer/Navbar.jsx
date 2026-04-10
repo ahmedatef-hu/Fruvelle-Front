@@ -22,7 +22,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50 border-b border-gray-200">
+    <nav className="bg-white shadow-md fixed top-0 left-0 right-0 z-50 border-b border-gray-200">
       <div className="container mx-auto px-4 md:px-8 lg:px-16">
         <div className="flex justify-between items-center h-20">
           {/* Logo - Right Side */}
@@ -59,7 +59,7 @@ const Navbar = () => {
                     : 'text-gray-700 hover:bg-primary-50 hover:text-primary-600'
                 }`}
               >
-                <span>{cat.icon}</span>
+                <span>{cat.emoji}</span>
                 <span>{cat.name}</span>
               </Link>
             ))}
@@ -125,7 +125,7 @@ const Navbar = () => {
                   }`}
                   onClick={() => setIsOpen(false)}
                 >
-                  {cat.icon} {cat.name}
+                  {cat.emoji} {cat.name}
                 </Link>
               ))}
               <div className="border-t border-gray-200 mt-2 pt-2 space-y-1">

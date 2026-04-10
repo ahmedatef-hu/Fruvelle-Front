@@ -49,7 +49,7 @@ const HomePage = () => {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative flex items-center justify-center overflow-hidden" style={{ height: 'calc(100vh - 80px)' }}>
+      <section className="relative flex items-center justify-center overflow-hidden h-screen -mt-20 pt-20">
         {/* Background Image */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
