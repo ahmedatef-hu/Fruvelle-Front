@@ -290,7 +290,7 @@ const ProductsPage = () => {
             <p className="text-gray-600">جرب تغيير الفلاتر أو البحث عن شيء آخر</p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {products.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}

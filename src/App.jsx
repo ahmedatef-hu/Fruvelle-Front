@@ -1,4 +1,5 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 import HomePage from './pages/customer/HomePage';
 import ProductsPage from './pages/customer/ProductsPage';
 import ProductDetailPage from './pages/customer/ProductDetailPage';
@@ -15,8 +16,20 @@ import AdminLayout from './components/admin/AdminLayout';
 import CustomerLayout from './components/customer/CustomerLayout';
 import ProtectedRoute from './components/admin/ProtectedRoute';
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
 function App() {
   return (
+    <>
+      <ScrollToTop />
     <Routes>
       {/* Customer Routes */}
       <Route path="/" element={<CustomerLayout />}>
@@ -45,6 +58,7 @@ function App() {
         <Route path="users" element={<AdminUsers />} />
       </Route>
     </Routes>
+    </>
   );
 }
 
