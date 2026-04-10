@@ -101,7 +101,7 @@ const HomePage = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <Link to="/products?category=1" className="group bg-gradient-to-br from-orange-50 to-orange-100 rounded-3xl shadow-xl p-8 text-center hover:shadow-2xl hover:shadow-orange-500/30 transform hover:scale-110 hover:-translate-y-3 transition-all duration-500 border-2 border-orange-200 hover:border-orange-500 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-orange-400/0 to-orange-500/0 group-hover:from-orange-400/10 group-hover:to-orange-500/10 transition-all duration-500"></div>
             <div className="text-7xl mb-4 group-hover:scale-125 group-hover:rotate-12 transition-all duration-500 relative z-10">🍇</div>
@@ -144,7 +144,7 @@ const HomePage = () => {
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
