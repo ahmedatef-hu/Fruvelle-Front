@@ -8,15 +8,16 @@
   box-sizing: border-box;
 }
 
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
+}
+
 body {
   font-family: 'Cairo', sans-serif;
   direction: rtl;
   background-color: #fafafa;
-  overflow-x: hidden;
-}
-
-html {
-  overflow-x: hidden;
 }
 
 @layer components {

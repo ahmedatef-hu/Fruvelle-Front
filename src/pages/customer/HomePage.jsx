@@ -49,7 +49,7 @@ const HomePage = () => {
   return (
     <div className="overflow-x-hidden">
       {/* Hero Section */}
-      <section className="relative flex items-center justify-center overflow-hidden h-screen -mt-20 pt-20 w-full">
+      <section className="relative flex items-center justify-center overflow-hidden min-h-screen w-full">
         {/* Background Image */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
