@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../config/api';
 import ProductCard from '../../components/customer/ProductCard';
@@ -9,6 +9,26 @@ const HomePage = () => {
 
   useEffect(() => {
     fetchFeaturedProducts();
+    
+    // Scroll Animation Observer
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-in');
+        }
+      });
+    }, observerOptions);
+
+    // Observe all elements with scroll-animate class
+    const animateElements = document.querySelectorAll('.scroll-animate');
+    animateElements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
   }, []);
 
   const fetchFeaturedProducts = async () => {
@@ -102,22 +122,22 @@ const HomePage = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <Link to="/products?category=1" className="group bg-gradient-to-br from-orange-50 to-orange-100 rounded-3xl shadow-xl p-8 text-center hover:shadow-2xl hover:shadow-orange-500/30 transform hover:scale-110 hover:-translate-y-3 transition-all duration-500 border-2 border-orange-200 hover:border-orange-500 relative overflow-hidden">
+          <Link to="/products?category=1" className="scroll-animate from-left group bg-gradient-to-br from-orange-50 to-orange-100 rounded-3xl shadow-xl p-8 text-center hover:shadow-2xl hover:shadow-orange-500/30 transform hover:scale-110 hover:-translate-y-3 transition-all duration-500 border-2 border-orange-200 hover:border-orange-500 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-orange-400/0 to-orange-500/0 group-hover:from-orange-400/10 group-hover:to-orange-500/10 transition-all duration-500"></div>
             <div className="text-7xl mb-4 group-hover:scale-125 group-hover:rotate-12 transition-all duration-500 relative z-10">🍇</div>
             <h3 className="font-bold text-gray-800 text-lg relative z-10 group-hover:text-orange-600 transition-colors">فواكه مجففة</h3>
           </Link>
-          <Link to="/products?category=2" className="group bg-gradient-to-br from-pink-50 to-pink-100 rounded-3xl shadow-xl p-8 text-center hover:shadow-2xl hover:shadow-pink-500/30 transform hover:scale-110 hover:-translate-y-3 transition-all duration-500 border-2 border-pink-200 hover:border-pink-500 relative overflow-hidden">
+          <Link to="/products?category=2" className="scroll-animate from-bottom group bg-gradient-to-br from-pink-50 to-pink-100 rounded-3xl shadow-xl p-8 text-center hover:shadow-2xl hover:shadow-pink-500/30 transform hover:scale-110 hover:-translate-y-3 transition-all duration-500 border-2 border-pink-200 hover:border-pink-500 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-pink-400/0 to-pink-500/0 group-hover:from-pink-400/10 group-hover:to-pink-500/10 transition-all duration-500"></div>
             <div className="text-7xl mb-4 group-hover:scale-125 group-hover:rotate-12 transition-all duration-500 relative z-10">🍬</div>
             <h3 className="font-bold text-gray-800 text-lg relative z-10 group-hover:text-pink-600 transition-colors">كاندي مجفف</h3>
           </Link>
-          <Link to="/products?category=3" className="group bg-gradient-to-br from-purple-50 to-purple-100 rounded-3xl shadow-xl p-8 text-center hover:shadow-2xl hover:shadow-purple-500/30 transform hover:scale-110 hover:-translate-y-3 transition-all duration-500 border-2 border-purple-200 hover:border-purple-500 relative overflow-hidden">
+          <Link to="/products?category=3" className="scroll-animate from-bottom group bg-gradient-to-br from-purple-50 to-purple-100 rounded-3xl shadow-xl p-8 text-center hover:shadow-2xl hover:shadow-purple-500/30 transform hover:scale-110 hover:-translate-y-3 transition-all duration-500 border-2 border-purple-200 hover:border-purple-500 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-purple-400/0 to-purple-500/0 group-hover:from-purple-400/10 group-hover:to-purple-500/10 transition-all duration-500"></div>
             <div className="text-7xl mb-4 group-hover:scale-125 group-hover:rotate-12 transition-all duration-500 relative z-10">🍡</div>
             <h3 className="font-bold text-gray-800 text-lg relative z-10 group-hover:text-purple-600 transition-colors">مارشميلو</h3>
           </Link>
-          <Link to="/products?category=4" className="group bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-3xl shadow-xl p-8 text-center hover:shadow-2xl hover:shadow-yellow-500/30 transform hover:scale-110 hover:-translate-y-3 transition-all duration-500 border-2 border-yellow-200 hover:border-yellow-500 relative overflow-hidden">
+          <Link to="/products?category=4" className="scroll-animate from-right group bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-3xl shadow-xl p-8 text-center hover:shadow-2xl hover:shadow-yellow-500/30 transform hover:scale-110 hover:-translate-y-3 transition-all duration-500 border-2 border-yellow-200 hover:border-yellow-500 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/0 to-yellow-500/0 group-hover:from-yellow-400/10 group-hover:to-yellow-500/10 transition-all duration-500"></div>
             <div className="text-7xl mb-4 group-hover:scale-125 group-hover:rotate-12 transition-all duration-500 relative z-10">🍿</div>
             <h3 className="font-bold text-gray-800 text-lg relative z-10 group-hover:text-yellow-600 transition-colors">سناكس مجففة</h3>
@@ -226,7 +246,7 @@ const HomePage = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Feature 1 - Quality */}
-            <div className="group bg-gradient-to-br from-green-50 to-green-100 rounded-3xl shadow-xl p-8 text-center hover:shadow-2xl hover:shadow-green-500/30 transform hover:scale-110 hover:-translate-y-3 transition-all duration-500 border-2 border-green-200 hover:border-green-500 relative overflow-hidden">
+            <div className="scroll-animate from-left group bg-gradient-to-br from-green-50 to-green-100 rounded-3xl shadow-xl p-8 text-center hover:shadow-2xl hover:shadow-green-500/30 transform hover:scale-110 hover:-translate-y-3 transition-all duration-500 border-2 border-green-200 hover:border-green-500 relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-green-400/0 to-green-500/0 group-hover:from-green-400/10 group-hover:to-green-500/10 transition-all duration-500"></div>
               <div className="text-7xl mb-4 group-hover:scale-125 group-hover:rotate-12 transition-all duration-500 relative z-10">✓</div>
               <h3 className="font-bold text-gray-800 text-xl mb-3 relative z-10 group-hover:text-green-600 transition-colors">جودة عالية</h3>
@@ -234,7 +254,7 @@ const HomePage = () => {
             </div>
             
             {/* Feature 2 - Delivery */}
-            <div className="group bg-gradient-to-br from-orange-50 to-orange-100 rounded-3xl shadow-xl p-8 text-center hover:shadow-2xl hover:shadow-orange-500/30 transform hover:scale-110 hover:-translate-y-3 transition-all duration-500 border-2 border-orange-200 hover:border-orange-500 relative overflow-hidden">
+            <div className="scroll-animate from-bottom group bg-gradient-to-br from-orange-50 to-orange-100 rounded-3xl shadow-xl p-8 text-center hover:shadow-2xl hover:shadow-orange-500/30 transform hover:scale-110 hover:-translate-y-3 transition-all duration-500 border-2 border-orange-200 hover:border-orange-500 relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-orange-400/0 to-orange-500/0 group-hover:from-orange-400/10 group-hover:to-orange-500/10 transition-all duration-500"></div>
               <div className="text-7xl mb-4 group-hover:scale-125 group-hover:rotate-12 transition-all duration-500 relative z-10">🚚</div>
               <h3 className="font-bold text-gray-800 text-xl mb-3 relative z-10 group-hover:text-orange-600 transition-colors">توصيل سريع</h3>
@@ -242,7 +262,7 @@ const HomePage = () => {
             </div>
             
             {/* Feature 3 - Price */}
-            <div className="group bg-gradient-to-br from-pink-50 to-pink-100 rounded-3xl shadow-xl p-8 text-center hover:shadow-2xl hover:shadow-pink-500/30 transform hover:scale-110 hover:-translate-y-3 transition-all duration-500 border-2 border-pink-200 hover:border-pink-500 relative overflow-hidden">
+            <div className="scroll-animate from-right group bg-gradient-to-br from-pink-50 to-pink-100 rounded-3xl shadow-xl p-8 text-center hover:shadow-2xl hover:shadow-pink-500/30 transform hover:scale-110 hover:-translate-y-3 transition-all duration-500 border-2 border-pink-200 hover:border-pink-500 relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-pink-400/0 to-pink-500/0 group-hover:from-pink-400/10 group-hover:to-pink-500/10 transition-all duration-500"></div>
               <div className="text-7xl mb-4 group-hover:scale-125 group-hover:rotate-12 transition-all duration-500 relative z-10">💰</div>
               <h3 className="font-bold text-gray-800 text-xl mb-3 relative z-10 group-hover:text-pink-600 transition-colors">أسعار مناسبة</h3>

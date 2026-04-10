@@ -7,7 +7,7 @@ const ProductCard = ({ product }) => {
   const addItem = useCartStore((state) => state.addItem);
 
   return (
-    <Link to={`/products/${product.id}`} className="group relative block">
+    <Link to={`/products/${product.id}`} className="scroll-animate from-bottom group relative block">
       {/* Multi-Layer Glow Effects */}
       <div className="absolute -inset-2 bg-gradient-to-r from-orange-400 via-pink-400 to-purple-400 rounded-3xl opacity-0 group-hover:opacity-60 blur-2xl transition-all duration-700 animate-pulse"></div>
       <div className="absolute -inset-1 bg-gradient-to-br from-orange-300 to-pink-300 rounded-3xl opacity-0 group-hover:opacity-40 blur-xl transition-all duration-500"></div>
