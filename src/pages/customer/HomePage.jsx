@@ -111,7 +111,8 @@ const HomePage = () => {
       </section>
 
       {/* Categories Quick Access */}
-      <section className="container mx-auto px-6 md:px-12 lg:px-20 py-16 relative z-30">
+      <section className="w-full overflow-hidden">
+        <div className="container mx-auto px-6 md:px-12 lg:px-20 py-16 relative z-30">
         {/* Section Header */}
         <div className="text-center mb-16">
           <span className="inline-block bg-orange-500 text-white px-6 py-2 rounded-full text-sm font-bold mb-6">
@@ -147,10 +148,12 @@ const HomePage = () => {
             <h3 className="font-bold text-gray-800 text-lg relative z-10 group-hover:text-yellow-600 transition-colors">سناكس مجففة</h3>
           </Link>
         </div>
+        </div>
       </section>
 
       {/* Featured Products */}
-      <section className="container mx-auto px-6 md:px-12 lg:px-20 py-20">
+      <section className="w-full overflow-hidden">
+        <div className="container mx-auto px-6 md:px-12 lg:px-20 py-20">
         <div className="text-center mb-16">
           <span className="inline-block bg-orange-500 text-white px-6 py-2 rounded-full text-sm font-bold mb-6">
             منتجاتنا المميزة
@@ -231,10 +234,11 @@ const HomePage = () => {
             <div className="absolute top-1/2 -left-4 w-3 h-3 bg-orange-300 rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-ping" style={{ animationDelay: '0.6s' }}></div>
           </Link>
         </div>
+        </div>
       </section>
 
       {/* Features Section */}
-      <section className="bg-gray-50 py-20">
+      <section className="bg-gray-50 py-20 w-full overflow-hidden">
         <div className="container mx-auto px-6 md:px-12 lg:px-20">
           <div className="text-center mb-16">
             <span className="inline-block bg-orange-500 text-white px-6 py-2 rounded-full text-sm font-bold mb-6">
