@@ -1,185 +1,247 @@
-import { useState, useEffect } from 'react';
-import { FiUser, FiPhone, FiMail, FiMapPin, FiPackage, FiEdit2, FiSave, FiX } from 'react-icons/fi';
+import { useState } from 'react';
+import { FiUser, FiPhone, FiMail, FiLock, FiMapPin } from 'react-icons/fi';
+import { toast } from 'react-toastify';
+import api from '../../config/api';
 
 const AccountPage = () => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [orders, setOrders] = useState([]);
-  const [userInfo, setUserInfo] = useState({
-    name: 'أحمد محمد',
-    phone: '01234567890',
-    email: 'ahmed@example.com',
-    address: 'القاهرة، مصر'
+  const [isLogin, setIsLogin] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [loginData, setLoginData] = useState({
+    phone: '',
+    password: ''
   });
-  const [editedInfo, setEditedInfo] = useState({ ...userInfo });
+  const [signupData, setSignupData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    address: ''
+  });
 
-  const handleEdit = () => {
-    setIsEditing(true);
-    setEditedInfo({ ...userInfo });
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const response = await api.post('/auth/login', loginData);
+      toast.success('تم تسجيل الدخول بنجاح');
+      // TODO: Save user data and redirect
+      console.log(response.data);
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'حدث خطأ في تسجيل الدخول');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleSave = () => {
-    setUserInfo({ ...editedInfo });
-    setIsEditing(false);
-    // TODO: Save to backend
-  };
+  const handleSignup = async (e) => {
+    e.preventDefault();
 
-  const handleCancel = () => {
-    setEditedInfo({ ...userInfo });
-    setIsEditing(false);
+    if (signupData.password !== signupData.confirmPassword) {
+      toast.error('كلمة المرور غير متطابقة');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await api.post('/auth/register', {
+        name: signupData.name,
+        phone: signupData.phone,
+        email: signupData.email,
+        password: signupData.password,
+        address: signupData.address
+      });
+      toast.success('تم إنشاء الحساب بنجاح');
+      setIsLogin(true);
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'حدث خطأ في إنشاء الحساب');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="container mx-auto px-4 md:px-8 lg:px-16 py-8">
-      <h1 className="text-3xl font-bold mb-8 text-gray-800">حسابي</h1>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* User Info Card */}
-        <div className="lg:col-span-1">
-          <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-bold text-gray-800">المعلومات الشخصية</h2>
-              {!isEditing ? (
-                <button
-                  onClick={handleEdit}
-                  className="p-2 text-primary-600 hover:bg-primary-50 rounded-lg transition"
-                >
-                  <FiEdit2 className="text-xl" />
-                </button>
-              ) : (
-                <div className="flex gap-2">
-                  <button
-                    onClick={handleSave}
-                    className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition"
-                  >
-                    <FiSave className="text-xl" />
-                  </button>
-                  <button
-                    onClick={handleCancel}
-                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
-                  >
-                    <FiX className="text-xl" />
-                  </button>
-                </div>
-              )}
-            </div>
-
-            <div className="space-y-4">
-              {/* Name */}
-              <div className="flex items-start gap-3">
-                <FiUser className="text-2xl text-primary-500 mt-1" />
-                <div className="flex-1">
-                  <p className="text-sm text-gray-500 mb-1">الاسم</p>
-                  {isEditing ? (
-                    <input
-                      type="text"
-                      value={editedInfo.name}
-                      onChange={(e) => setEditedInfo({ ...editedInfo, name: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                    />
-                  ) : (
-                    <p className="text-gray-800 font-semibold">{userInfo.name}</p>
-                  )}
-                </div>
-              </div>
-
-              {/* Phone */}
-              <div className="flex items-start gap-3">
-                <FiPhone className="text-2xl text-primary-500 mt-1" />
-                <div className="flex-1">
-                  <p className="text-sm text-gray-500 mb-1">رقم الهاتف</p>
-                  {isEditing ? (
-                    <input
-                      type="tel"
-                      value={editedInfo.phone}
-                      onChange={(e) => setEditedInfo({ ...editedInfo, phone: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                    />
-                  ) : (
-                    <p className="text-gray-800 font-semibold">{userInfo.phone}</p>
-                  )}
-                </div>
-              </div>
-
-              {/* Email */}
-              <div className="flex items-start gap-3">
-                <FiMail className="text-2xl text-primary-500 mt-1" />
-                <div className="flex-1">
-                  <p className="text-sm text-gray-500 mb-1">البريد الإلكتروني</p>
-                  {isEditing ? (
-                    <input
-                      type="email"
-                      value={editedInfo.email}
-                      onChange={(e) => setEditedInfo({ ...editedInfo, email: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                    />
-                  ) : (
-                    <p className="text-gray-800 font-semibold">{userInfo.email}</p>
-                  )}
-                </div>
-              </div>
-
-              {/* Address */}
-              <div className="flex items-start gap-3">
-                <FiMapPin className="text-2xl text-primary-500 mt-1" />
-                <div className="flex-1">
-                  <p className="text-sm text-gray-500 mb-1">العنوان</p>
-                  {isEditing ? (
-                    <textarea
-                      value={editedInfo.address}
-                      onChange={(e) => setEditedInfo({ ...editedInfo, address: e.target.value })}
-                      rows="3"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none"
-                    />
-                  ) : (
-                    <p className="text-gray-800 font-semibold">{userInfo.address}</p>
-                  )}
-                </div>
-              </div>
-            </div>
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-pink-50 to-purple-50 py-12 px-4">
+      <div className="container mx-auto max-w-md">
+        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
+          {/* Header */}
+          <div className="bg-gradient-to-r from-orange-500 to-pink-500 p-8 text-center">
+            <h1 className="text-3xl font-black text-white mb-2">
+              {isLogin ? 'تسجيل الدخول' : 'إنشاء حساب جديد'}
+            </h1>
+            <p className="text-white/90">
+              {isLogin ? 'مرحباً بعودتك!' : 'انضم إلى عائلة Fruvelle'}
+            </p>
           </div>
-        </div>
 
-        {/* Orders Section */}
-        <div className="lg:col-span-2">
-          <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-            <div className="flex items-center gap-3 mb-6">
-              <FiPackage className="text-2xl text-primary-500" />
-              <h2 className="text-xl font-bold text-gray-800">طلباتي</h2>
-            </div>
+          {/* Toggle Buttons */}
+          <div className="flex border-b">
+            <button
+              onClick={() => setIsLogin(true)}
+              className={`flex-1 py-4 font-bold transition ${
+                isLogin
+                  ? 'text-orange-600 border-b-4 border-orange-600'
+                  : 'text-gray-400 hover:text-gray-600'
+              }`}
+            >
+              تسجيل الدخول
+            </button>
+            <button
+              onClick={() => setIsLogin(false)}
+              className={`flex-1 py-4 font-bold transition ${
+                !isLogin
+                  ? 'text-orange-600 border-b-4 border-orange-600'
+                  : 'text-gray-400 hover:text-gray-600'
+              }`}
+            >
+              إنشاء حساب
+            </button>
+          </div>
 
-            {orders.length === 0 ? (
-              <div className="text-center py-12">
-                <FiPackage className="text-6xl text-gray-300 mx-auto mb-4" />
-                <p className="text-gray-500 text-lg">لا توجد طلبات حتى الآن</p>
-                <p className="text-gray-400 text-sm mt-2">ابدأ التسوق الآن واستمتع بمنتجاتنا!</p>
-              </div>
+          {/* Forms */}
+          <div className="p-8">
+            {isLogin ? (
+              // Login Form
+              <form onSubmit={handleLogin} className="space-y-6">
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2">
+                    <FiPhone className="inline ml-2" />
+                    رقم الهاتف
+                  </label>
+                  <input
+                    type="tel"
+                    value={loginData.phone}
+                    onChange={(e) => setLoginData({ ...loginData, phone: e.target.value })}
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-orange-500 focus:outline-none transition"
+                    placeholder="05xxxxxxxx"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2">
+                    <FiLock className="inline ml-2" />
+                    كلمة المرور
+                  </label>
+                  <input
+                    type="password"
+                    value={loginData.password}
+                    onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-orange-500 focus:outline-none transition"
+                    placeholder="••••••••"
+                    required
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-gradient-to-r from-orange-500 to-pink-500 text-white py-4 rounded-xl font-bold text-lg hover:shadow-lg transform hover:scale-105 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {loading ? 'جاري تسجيل الدخول...' : 'تسجيل الدخول'}
+                </button>
+              </form>
             ) : (
-              <div className="space-y-4">
-                {orders.map((order) => (
-                  <div
-                    key={order.id}
-                    className="border border-gray-200 rounded-xl p-4 hover:shadow-md transition"
-                  >
-                    <div className="flex justify-between items-start mb-3">
-                      <div>
-                        <p className="font-semibold text-gray-800">طلب #{order.id}</p>
-                        <p className="text-sm text-gray-500">{order.date}</p>
-                      </div>
-                      <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                        order.status === 'delivered' ? 'bg-green-100 text-green-700' :
-                        order.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
-                        'bg-blue-100 text-blue-700'
-                      }`}>
-                        {order.statusText}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <p className="text-gray-600">{order.itemsCount} منتج</p>
-                      <p className="text-lg font-bold text-primary-600">{order.total} جنيه</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              // Signup Form
+              <form onSubmit={handleSignup} className="space-y-4">
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2">
+                    <FiUser className="inline ml-2" />
+                    الاسم الكامل
+                  </label>
+                  <input
+                    type="text"
+                    value={signupData.name}
+                    onChange={(e) => setSignupData({ ...signupData, name: e.target.value })}
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-orange-500 focus:outline-none transition"
+                    placeholder="أحمد محمد"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2">
+                    <FiPhone className="inline ml-2" />
+                    رقم الهاتف
+                  </label>
+                  <input
+                    type="tel"
+                    value={signupData.phone}
+                    onChange={(e) => setSignupData({ ...signupData, phone: e.target.value })}
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-orange-500 focus:outline-none transition"
+                    placeholder="05xxxxxxxx"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2">
+                    <FiMail className="inline ml-2" />
+                    البريد الإلكتروني
+                  </label>
+                  <input
+                    type="email"
+                    value={signupData.email}
+                    onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-orange-500 focus:outline-none transition"
+                    placeholder="example@email.com"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2">
+                    <FiMapPin className="inline ml-2" />
+                    العنوان
+                  </label>
+                  <textarea
+                    value={signupData.address}
+                    onChange={(e) => setSignupData({ ...signupData, address: e.target.value })}
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-orange-500 focus:outline-none transition resize-none"
+                    placeholder="المدينة، الحي، الشارع"
+                    rows="2"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2">
+                    <FiLock className="inline ml-2" />
+                    كلمة المرور
+                  </label>
+                  <input
+                    type="password"
+                    value={signupData.password}
+                    onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-orange-500 focus:outline-none transition"
+                    placeholder="••••••••"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2">
+                    <FiLock className="inline ml-2" />
+                    تأكيد كلمة المرور
+                  </label>
+                  <input
+                    type="password"
+                    value={signupData.confirmPassword}
+                    onChange={(e) => setSignupData({ ...signupData, confirmPassword: e.target.value })}
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-orange-500 focus:outline-none transition"
+                    placeholder="••••••••"
+                    required
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-gradient-to-r from-orange-500 to-pink-500 text-white py-4 rounded-xl font-bold text-lg hover:shadow-lg transform hover:scale-105 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {loading ? 'جاري إنشاء الحساب...' : 'إنشاء حساب'}
+                </button>
+              </form>
             )}
           </div>
         </div>
