@@ -31,7 +31,11 @@ const AdminLayout = () => {
         >
           {isSidebarOpen ? <FiX /> : <FiMenu />}
         </button>
-        <h1 className="text-xl font-bold text-primary-600">Fruvelle</h1>
+        <img 
+          src="/Fruvelle Logo.png" 
+          alt="Fruvelle" 
+          className="h-10 w-auto object-contain"
+        />
         <div className="w-8"></div>
       </div>
 
@@ -50,8 +54,12 @@ const AdminLayout = () => {
         ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-0'}
       `}>
         <div className="p-6 border-b hidden lg:block">
-          <h1 className="text-2xl font-bold text-primary-600">Fruvelle</h1>
-          <p className="text-sm text-gray-600 mt-1">لوحة التحكم</p>
+          <img 
+            src="/Fruvelle Logo.png" 
+            alt="Fruvelle" 
+            className="h-12 w-auto object-contain mb-2"
+          />
+          <p className="text-sm text-gray-600">لوحة التحكم</p>
         </div>
 
         <nav className="p-4 mt-16 lg:mt-0">
