@@ -122,15 +122,15 @@ const AdminProducts = () => {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">إدارة المنتجات</h1>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <h1 className="text-2xl md:text-3xl font-bold">إدارة المنتجات</h1>
         <button
           onClick={() => {
             setEditingProduct(null);
             resetForm();
             setShowModal(true);
           }}
-          className="btn-primary flex items-center gap-2"
+          className="btn-primary flex items-center gap-2 w-full sm:w-auto justify-center"
         >
           <FiPlus />
           <span>إضافة منتج</span>
@@ -151,8 +151,8 @@ const AdminProducts = () => {
         </div>
       </div>
 
-      {/* Products Table */}
-      <div className="card overflow-x-auto">
+      {/* Products Table - Desktop */}
+      <div className="card overflow-x-auto hidden md:block">
         <table className="w-full">
           <thead>
             <tr className="border-b">
@@ -200,6 +200,43 @@ const AdminProducts = () => {
         </table>
       </div>
 
+      {/* Products Cards - Mobile */}
+      <div className="md:hidden space-y-4">
+        {filteredProducts.map((product) => (
+          <div key={product.id} className="card">
+            <div className="flex gap-4">
+              <img
+                src={product.images?.[0] || '/placeholder.jpg'}
+                alt={product.name_ar}
+                className="w-20 h-20 object-cover rounded"
+              />
+              <div className="flex-1">
+                <h3 className="font-bold text-lg mb-1">{product.name_ar}</h3>
+                <p className="text-primary-600 font-semibold mb-1">{product.price} جنيه</p>
+                <p className="text-sm text-gray-600">{product.category_name || '-'}</p>
+                <p className="text-sm text-gray-600">المخزون: {product.stock || 0}</p>
+              </div>
+            </div>
+            <div className="flex gap-2 mt-4 pt-4 border-t">
+              <button
+                onClick={() => handleEdit(product)}
+                className="flex-1 btn-primary flex items-center justify-center gap-2"
+              >
+                <FiEdit />
+                <span>تعديل</span>
+              </button>
+              <button
+                onClick={() => handleDelete(product.id)}
+                className="flex-1 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 flex items-center justify-center gap-2"
+              >
+                <FiTrash2 />
+                <span>حذف</span>
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -231,7 +268,7 @@ const AdminProducts = () => {
                   ></textarea>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-gray-700 mb-2">السعر *</label>
                     <input
@@ -261,7 +298,7 @@ const AdminProducts = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-gray-700 mb-2">الوزن</label>
                     <input
@@ -294,7 +331,7 @@ const AdminProducts = () => {
                 </div>
               </div>
 
-              <div className="flex gap-4 mt-6">
+              <div className="flex flex-col sm:flex-row gap-4 mt-6">
                 <button type="submit" disabled={loading} className="btn-primary flex-1">
                   {loading ? 'جاري الحفظ...' : 'حفظ'}
                 </button>
